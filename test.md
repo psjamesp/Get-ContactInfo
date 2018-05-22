@@ -15,6 +15,8 @@ Just Enough Administration (JEA for the rest of this chapter) is another layer o
 To preparte your environment you need to make sure the following items are in place
 *Make sure you have the most up to date version of Windows PowerShell (WMF5.1.x) on your servers and workstations
     *It should be noted that although Windows Server 2008 R2 can run WMF 5.1 JEA will have slightley limited cabilities
-*PowerShell Remoting must be enabled ```Enable-PSRemoting
-
+*PowerShell Remoting must be enabled 
+   ```powershell 
+   Enable-PSRemoting 
+   ```
 ## How to implement JEA
