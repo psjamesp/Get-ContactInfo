@@ -6,9 +6,9 @@ By James Petty
 
 Just Enough Administration (JEA for the rest of this chapter) is another layer of security that you can implement in your environment. Its main purpose is to limit the number of administrators that you have. This is done by leveraging the built in capabilities already found in Windows PowerShell. JEA allows an administrator to custom taylor a PowerShell enviornment for someone that has all the rights that are needed to perform his/her task but nothing more. Whether that is to restart the spooler service or to kill a process. 
 
-*Whitelist the commands and pramaers that a person can use
-*Limit the number of administratrs on each machine
-*Know what your users are doing on the machines
+* Whitelist the commands and pramaers that a person can use
+* Limit the number of administratrs on each machine
+* Know what your users are doing on the machines
 
 ## Prerequisites
 
