@@ -57,7 +57,8 @@ Another option that you can enable is the `MountUserDrive = $True` this will mou
 Lets come back to the Role Definitions for a little bit. In our example above User1 has the ability to connect to the 'Demo' Role. But what if you you wanted to have multiple roles? You are in luck becuase that option is built in.
 `RoleDefinitions = @{'Demo\User1'= @{ RoleCapabilities = 'Demo','PrintSpooler','DNSOperator' }}` 
 This way you do not have to put everything in one configuration file (we will get ot that later). But will allow you to seperate which users can access what. Again, our goal with JEA to give people the tools they need to perform their job, no more and no less than that.
-We can also have multiple accounts with different roles. Lets say you have a job that you want the HelpDesk to take care of, but the server is also a DNS server so your DNS admins need to perform administrative functions as well. 
+We can also have multiple accounts with different roles. Lets say you have a job that you want the HelpDesk to take care of, but the server is also a DNS server so your DNS admins need to perform administrative functions as well.
+
 `RoleDefinitions = @{'Demo\HelpDeskGroup'= @{ RoleCapabilities = 'HelpDeskFunction' }}`
 `RoleDefinitions = @{'Demo\DNSAdmin'= @{ RoleCapabilities = 'DNSAdminRole' }}`
 `RoleDefinitions = @{'Demo\Tier2Support= @{ RoleCapabilities = 'HelpDeskFunction','DNSAdminRole','Tier2Support'}}`
