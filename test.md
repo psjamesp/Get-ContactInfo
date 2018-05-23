@@ -22,7 +22,7 @@ To preparte your environment you need to make sure the following items are in pl
    Enable-PSRemoting 
    ```
 
-* It's suggest that you also turn on script block logging but not required
+* It's suggested that you also turn on script block logging but not required
 
 ## How JEA Works
 JEA is a mechnisam that allows for stricter control of capbilities on endpoints. This is accomplished by creating endpoints on any computer and using Configuration Files (the who) and Role Capability (the what) files you can manage who can do what on each machine. 
