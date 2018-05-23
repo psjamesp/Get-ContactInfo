@@ -28,3 +28,14 @@ JEA is a mechnisam that allows for stricter control of capbilities on endpoints.
 This file allows you to configure who can access the system by using individual Domain Accounts or Domain Global Groups. You can also set global settings such as virtual accounts and logging in this file as well. Each machine must have a configuartion file, so this allows you to configure access on a per-machine basis. 
 
 #### How to create and Configure a Configuration File
+Luck for us there Microsoft has provided us with an amazing PowerShell command that will make this file for us
+```powershell
+$ConfFileData = @{
+    SessionType = "RestrictedRemoteServer"
+    TranscriptDirectory = "C:\ProgramData\JEATranscripts"
+    RunAsVirtualAccount = $true
+    RoleDefinitions = @{'Demo\User1'= @{ RoleCapabilities = 'Demo' }}
+    Path = "$env:ProgramData\JEAConfiguration\Demo.pssc"
+}
+New-PSSessionConfigurationFile @ConfFileData
+```
