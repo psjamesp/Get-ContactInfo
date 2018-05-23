@@ -59,9 +59,11 @@ Lets come back to the Role Definitions for a little bit. In our example above Us
 This way you do not have to put everything in one configuration file (we will get ot that later). But will allow you to seperate which users can access what. Again, our goal with JEA to give people the tools they need to perform their job, no more and no less than that.
 We can also have multiple accounts with different roles. Lets say you have a job that you want the HelpDesk to take care of, but the server is also a DNS server so your DNS admins need to perform administrative functions as well. 
 
-`RoleDefinitions = @{'Demo\HelpDeskGroup'= @{ RoleCapabilities = 'HelpDeskFunction' }}`
-`RoleDefinitions = @{'Demo\DNSAdmin'= @{ RoleCapabilities = 'DNSAdminRole' }}`
-`RoleDefinitions = @{'Demo\Tier2Support= @{ RoleCapabilities = 'HelpDeskFunction','DNSAdminRole','Tier2Support'}}`
+```powershell
+RoleDefinitions = @{'Demo\HelpDeskGroup'= @{ RoleCapabilities = 'HelpDeskFunction' }}
+RoleDefinitions = @{'Demo\DNSAdmin'= @{ RoleCapabilities = 'DNSAdminRole' }}
+RoleDefinitions = @{'Demo\Tier2Support= @{ RoleCapabilities = 'HelpDeskFunction','DNSAdminRole','Tier2Support'}}
+```
 
 ###Role Capability Files (the what) - .psrc
 There are a few things to take note of, If you don't then your JEA configuration will not work
