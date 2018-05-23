@@ -18,9 +18,11 @@ To preparte your environment you need to make sure the following items are in pl
 * Make sure you have the most up to date version of Windows PowerShell (WMF5.1.x) on your servers and workstations
     * It should be noted that although Windows Server 2008 R2 can run WMF 5.1 JEA will have slightley limited cabilities
 * PowerShell Remoting must be enabled 
+
    ```powershell 
    Enable-PSRemoting 
    ```
+
 * It's suggest that you also turn on script block logging but not required
 ## How JEA Works
 JEA is a mechnisam that allows for stricter control of capbilities on endpoints. This is accomplished by creating endpoints on any computer and using Configuration Files (the who) and Role Capability (the what) files you can manage who can do what on each machine. 
@@ -39,6 +41,7 @@ Then we are going to set the settings that we want
 *RunAsVirtualAccount uses a virtual administrative account that the user connects to. This account is unknown to the user and the user cannot use this account in anyother way . The virtual account destroys its self when the session is ended. 
 *Role Definations is what roles the user can access
 *Path is where you are going to save the pssc file
+
 ```powershell
 $ConfFileData = @{
     SessionType = "RestrictedRemoteServer"
