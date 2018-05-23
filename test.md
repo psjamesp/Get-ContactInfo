@@ -30,7 +30,7 @@ JEA is a mechnisam that allows for stricter control of capbilities on endpoints.
 ### Session Configuration File (the who)
 This file allows you to configure who can access the system by using individual Domain Accounts or Domain Global Groups. You can also set global settings such as virtual accounts and logging in this file as well. Each machine must have a configuartion file, so this allows you to configure access on a per-machine basis. The file extension is PSSC. The Microsoft default location for htis file is env:ProgramData\JEAConfiguration.
 
-#### How to create and Configure a Configuration File
+#### How to create and Configure a Configuration File - .pssc
 Lucky for us there Microsoft has provided us with the `New-PSSessionConfigurationFile` command that will create the file for us. 
 First we need to make our JEA direcotry in ProgramData direcotry
 
@@ -57,12 +57,63 @@ Another option that you can enable is the `MountUserDrive = $True` this will mou
 Lets come back to the Role Definitions for a little bit. In our example above User1 has the ability to connect to the 'Demo' Role. But what if you you wanted to have multiple roles? You are in luck becuase that option is built in.
 `RoleDefinitions = @{'Demo\User1'= @{ RoleCapabilities = 'Demo','PrintSpooler','DNSOperator' }}` 
 This way you do not have to put everything in one configuration file (we will get ot that later). But will allow you to seperate which users can access what. Again, our goal with JEA to give people the tools they need to perform their job, no more and no less than that.
-We can also have multiple accounts with different roles. Lets say you have a job that you want the HelpDesk to take care of, but the server is also a DNS server so your DNS admins need to perform administrative functions as well.
+We can also have multiple accounts with different roles. Lets say you have a job that you want the HelpDesk to take care of, but the server is also a DNS server so your DNS admins need to perform administrative functions as well. 
 
 `RoleDefinitions = @{'Demo\HelpDeskGroup'= @{ RoleCapabilities = 'HelpDeskFunction' }}`
-
 `RoleDefinitions = @{'Demo\DNSAdmin'= @{ RoleCapabilities = 'DNSAdminRole' }}`
-
 `RoleDefinitions = @{'Demo\Tier2Support= @{ RoleCapabilities = 'HelpDeskFunction','DNSAdminRole','Tier2Support'}}`
 
-###Role Capability Files (the what)
+###Role Capability Files (the what) - .psrc
+There are a few things to take note of, If you don't then your JEA configuration will not work
+* The first thing you have to do is create a proper module file. And inside that Directory you will need a folder called RoleCapabilities
+* The file name must be the same as the configuration name you mentioned in the ConfigurationFile we configured Earlier
+    * HelpDeskFunction.psrc
+
+Once again Microsoft has provided us with a PowerShell command that we can use to make our files for us (you can use the base file or pass all the informaiton you want in it) `New-PSRoleCapabilityFile`. 
+Here is how we would make a psrc file with the defaults
+
+```powershell
+New-PSRoleCapabilityFile -Path 'C:\Program Files\WindowsPowerShell\Modules\Demo\RoleCapabilities\demo.psrc'
+```
+Keep in mind that this file has all the power. This is where you include what the user can do. Lets say that you wanted to let the user see all services.
+
+```powershell
+#Just Cmdlests
+$CapabilityFile = @{
+    Path = 'C:\Program Files\WindowsPowerShell\Modules\Demo\RoleCapabilities\demo.psrc'
+    VisibleCmdlets = "get-service"
+}
+New-PSRoleCapabilityFile @CapabilityFile
+```
+
+But what if we wanted the HelpDesk to be able to restart the spooler service? We have the ability to restrict paramaters to commands as well. 
+
+```powershell
+$CapabilityFile = @{
+    Path = 'C:\Program Files\WindowsPowerShell\Modules\Demo\RoleCapabilities\demo.psrc'
+    VisibleCmdlets = @{Name = 'Restart-Service;
+                       Paramaters = @{Name = 'Name'; ValidateSet = 'Spooler'}}
+}
+New-PSRoleCapabilityFile @CapabilityFile
+```
+
+Now that we have the basis down we can start adding more commands and functions. Here we are giving access to some selected functions
+
+```PowerShell
+#Adding functions
+$CapabilityFile = @{
+    Path = 'C:\Program Files\WindowsPowerShell\Modules\Demo\RoleCapabilities\demo.psrc'
+    VisibleCmdlets = "get-process","get-service","restart-computer"
+    VisibleFunctions='Disable-ScheduledTask',
+    'Enable-ScheduledTask',
+    'Start-ScheduledTask',
+    'Stop-ScheduledTask',
+    'Where-Object',
+    'Select-Object',
+    'Get-SmbOpenFile',
+    'Close-SmbOpenFile'
+}
+
+New-PSRoleCapabilityFile @CapabilityFile
+```
+
